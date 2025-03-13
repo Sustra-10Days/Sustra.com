@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  name      String?
+  googleId  String  @unique  // Store Google ID for login
+  studentId String? @unique  // Optional but unique
+  year      Int?    // Year of study
+  major     Major?
+  orders    Order[]
+}
+
+enum Major {
+  COMPUTER
+  CHEMICAL
+  MECHANICAL
+  ELECTRICAL
+  PETROLEUM
+  CIVIL
+  INDUSTRIAL
+  SERVEY
+  ENVIRONMENTAL
+  NUCLEAR
+  ADME
+  NANO
+  ICE
+  AERO
+  AI
+}
+
+model Charm {
+  id    String  @id @default(uuid())
+  name  String
+  price Int
+  quote String
+  orders Order[]
+}
+
+model Order {
+  id       String  @id @default(uuid())
+  user     User    @relation(fields: [userId], references: [id])
+  userId   String
+  charm    Charm   @relation(fields: [charmId], references: [id])
+  charmId  String
+  totalPrice Int
+  createdAt DateTime @default(now())
+}
+
