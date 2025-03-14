@@ -12,6 +12,9 @@
   --font-mono: var(--font-geist-mono);
   --font-poppins: "Poppins", sans-serif;
 }
+*{
+  font-family:"Poppins", sans-serif;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
