@@ -9,16 +9,16 @@ import { useRouter } from 'next/navigation'
 
 export default function MarketPlace() {
     const [log, setLogin] = useState(false);
-    const [username, setUsername] = useState('Logon');
+    const [username, setUsername] = useState('Login');
     const router = useRouter();
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                setUsername(user.displayName ||'Username');
+                setUsername(user.displayName ||'Login');
                 setLogin(true);
             }
-            else{router.push('/')}
+            else{router.push('/login')}
         })
     }, [router]
     )
@@ -27,7 +27,7 @@ export default function MarketPlace() {
         router.push('/profile')
     }
     return (
-        <div className='grid grid-cols-5 gap-1'>
+        log ? (<div className='grid grid-cols-5 gap-1'>
             <div className="col-span-5">
                 <Navbar user={username} onClick={onClick} login={log}/>
             </div>
@@ -76,5 +76,6 @@ export default function MarketPlace() {
                     </div>
                 </main>
             </div>
-        </div>)
+        </div>) : null
+        )
 }

@@ -6,7 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from 'next/navigation';
 
 export default function Landing() {
-  const [user, setUser] = useState('Username');
+  const [user, setUser] = useState('Login');
   const [login, setLogin] = useState(false);
   const router = useRouter();
 
@@ -14,7 +14,7 @@ export default function Landing() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const displayName = user.displayName
-        setUser(displayName || 'Username');
+        setUser(displayName || 'Login');
         setLogin(true);
       }
     })
@@ -34,7 +34,7 @@ export default function Landing() {
       router.push('/profile');
     }
     else {
-      router.push('/l')
+      router.push('/login')
     }
   }
 
