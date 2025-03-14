@@ -27,13 +27,16 @@ export default function MarketPlace() {
         router.push('/profile')
     }
     return (
-        <div className='flex flex-col grid-cols-2'>
-            <Navbar user={username} onClick={onClick} login={log}/>
-            <div className="flex bg-white">
-
-                <Sidebar />
-                <main className="h-screen bg-white flex-1">
-                    <div className="grid grid-cols-2 md:grid-cols-auto-fit gap-8 justify-center">
+        <div className='grid grid-cols-5 gap-1'>
+            <div className="col-span-5">
+                <Navbar user={username} onClick={onClick} login={log}/>
+            </div>
+            <div className="row-span-4 row-start-2 hidden sm:block">
+                    <Sidebar />
+            </div>
+            <div className="col-span-5 row-span-4 row-start-2 md:col-span-4 lg:col-span-4">
+                <main className="h-screen bg-white flex-1 p-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-auto justify-center items-center">
                         <Charms
                             id="1"
                             name="testr"

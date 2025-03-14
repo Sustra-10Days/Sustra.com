@@ -20,9 +20,9 @@ export default function Charms({ id, name, image, variant, quote, isRare, catego
     }
 
     return (
-    <div>
+    <div className="m-2 sm:scale-90">
     {/*  Front Card */}
-    <div className={`relative w-52 rounded-xl shadow-lg overflow-hidden bg-slate-200/60 border border-gray-200 hover:scale-105 transition duration-150 ${click && "rotate-y-180 hidden transition"} ${!click && "show"}`}>
+    <div className={`items-center justify-center relative w-52 rounded-xl shadow-lg overflow-hidden bg-slate-200/60 border border-gray-200 hover:scale-105 transition duration-150 ${click && "rotate-y-180 hidden transition"} ${!click && "show"}`}>
       {/* Rarity */}
       {isRare && (
         <div className="absolute top-2 right-2 px-2 py-1 text-xs font-bold text-white bg-blue-500 rounded">

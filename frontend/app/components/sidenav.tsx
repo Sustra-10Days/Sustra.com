@@ -28,12 +28,12 @@ const Sidebar = () => {
     };
 
     return (
-        <aside className="w-64 p-4 border-r border-gray-200 bg-white">
+        <aside className="w-64 p-4 items-center justify-center flex-col">
             {/* Category Filter */}
-            <div className="mb-6 bg-white">
+            <div className="mb-6 bg-white px-20">
                 <h3 className="text-lg font-semibold mb-2 text-black">Color</h3>
                 {categories.map((category) => (
-                    <label key={category} className="flex items-center space-x-2 text-gray-700">
+                    <label key={category} className="flex items-center space-x-2 text-gray-700 text-right">
                         <input
                             type="checkbox"
                             checked={selectedCategories.includes(category)}
@@ -46,7 +46,7 @@ const Sidebar = () => {
             </div>
 
             {/* Rarity Filter */}
-            <div className="mb-6">
+            <div className="mb-6 px-20">
                 <h3 className="text-lg font-semibold mb-2 text-black">Category</h3>
                 {rarities.map((rarity) => (
                     <label key={rarity} className="flex items-center space-x-2 text-gray-700">
@@ -62,8 +62,8 @@ const Sidebar = () => {
             </div>
 
             {/* Size Filter */}
-            <div>
-                <h3 className="text-lg font-semibold mb-2 text-black">Sizes</h3>
+            <div className="mb-6 px-20">
+                <h3 className="text-lg font-semibold mb-2 text-black">Major</h3>
                 {majors.map((major) => (
                     <label key={major} className="flex items-center space-x-2 text-gray-700">
                         <input
