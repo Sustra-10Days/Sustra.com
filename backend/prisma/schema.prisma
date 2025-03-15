@@ -13,11 +13,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Major {
+  COMPUTER
+  CEDT
+  CHEMICAL
+  MECHANICAL
+  ELECTRICAL
+  PETROLEUM
+  CIVIL
+  INDUSTRIAL
+  SURVEY
+  ENVIRONMENTAL
+  NUCLEAR
+  ADME
+  NANO
+  ICE
+  AERO
+  AI
+}
 
 model User {
   id        String  @id @default(uuid()) //Primary Key
   email     String  @unique
   name      String?
+  lastRandomized  DateTime?
   googleId  String  @unique
   studentId String? @unique
   year      Int?
@@ -28,24 +47,7 @@ model User {
   wishlist Wishlist[]
 }
 
-enum Major {
-  COMPUTER
-  CEDT
-  CHEMICAL
-  MECHANICAL
-  ELECTRICAL
-  PETROLEUM
-  CIVIL
-  INDUSTRIAL
-  SERVEY
-  ENVIRONMENTAL
-  NUCLEAR
-  ADME
-  NANO
-  ICE
-  AERO
-  AI
-}
+
 
 model Charm {
   id    String  @id @default(uuid())
@@ -73,7 +75,6 @@ enum Rarity {
   RARE
 }
 
-
 model Inventory {
   id          String  @id @default(uuid())
   userId      String
@@ -82,6 +83,8 @@ model Inventory {
   charm       Charm   @relation(fields: [charmId], references: [id])
   acquiredAt  DateTime @default(now())
   expiresAt   DateTime?  // 1-day expiration
+  @@index([userId])
+  @@index([charmId])
 }
 
 
@@ -92,4 +95,6 @@ model Wishlist {
   user     User    @relation(fields: [userId], references: [id])
   charmId  String
   charm    Charm   @relation(fields: [charmId], references: [id])
+  @@index([userId])
+  @@index([charmId])
 }
