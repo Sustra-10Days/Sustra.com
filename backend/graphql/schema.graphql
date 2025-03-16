@@ -1,0 +1,75 @@
+# ENUMS
+
+enum Category {
+  LOVE
+  STUDY
+  MONEY
+  HEALTH
+}
+
+enum Rarity {
+  COMMON
+  RARE
+}
+
+enum Major {
+  COMPUTER
+  CEDT
+  CHEMICAL
+  MECHANICAL
+  ELECTRICAL
+  PETROLEUM
+  CIVIL
+  INDUSTRIAL
+  SURVEY
+  ENVIRONMENTAL
+  NUCLEAR
+  ADME
+  NANO
+  ICE
+  AERO
+  AI
+}
+
+# TYPES
+
+type Charm {
+  id: String!
+  name: String!
+  category: Category!
+  imageUrl: String
+  quote: String
+  variant: String
+  rarity: Rarity!
+  totalQuantity: Int!
+  availableQuantity: Int!
+}
+
+type Inventory {
+  id: String!
+  userId: String!
+  charm: Charm!
+  acquiredAt: String!
+  expiresAt: String
+}
+
+type RandomizedResult {
+  charm: Charm!
+  inventory: Inventory!
+}
+
+# QURIES
+type Query {
+  getUserInventory(userId: String!): [Inventory!]!
+}
+
+# MUTATIONS
+type Mutation {
+  randomizeCharm(userId: String!): RandomizeResponse!
+}
+
+# RESPONSE TYPES
+type RandomizeResponse {
+  message: String!
+  results: [RandomizedResult!]!
+}
