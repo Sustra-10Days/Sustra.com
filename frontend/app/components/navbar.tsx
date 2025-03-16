@@ -28,10 +28,11 @@ export default function Navbar({ user, login, onClick, lp }: NavbarProps) {
   return (
     <nav className="top-0 w-screen flex items-center justify-between py-6 px-10 sm:px-10 md:px-20 lg:px-20 bg-white/80 z-100 sm:block">
       {/* Logo and Product */}
-      {lp && (<div className="flex items-center space-x-6">
+      <div className="flex items-center space-x-6">
+      {lp && (<>
         <div className="text-2xl font-bold text-black/75" onClick={handleLogo}>Sustra</div>
         <a className="text-violet-900/80 font-medium hover:text-violet-900 transition duration-100">Product</a>
-      </div>)}
+        </>)}
 
       {/* Mobile Menu Button */}
       {!lp && (<div className="sm:hidden order-1">
@@ -76,6 +77,7 @@ export default function Navbar({ user, login, onClick, lp }: NavbarProps) {
           </div>
           <span className="italic text-gray-500">{user}</span>
         </div>
+      </div>
       </div>
 
       {/* Mobile Sidebar */}
