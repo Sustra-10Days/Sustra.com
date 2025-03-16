@@ -44,6 +44,7 @@ export default function Login() {
                         Sustra.com
                     </Link>
                 </div>
+                {error!=='' &&("Failed to sign in with Google. Please try again.")}
                 {/*button container*/}
                 <button onClick={handleGoogleSignin} className="gsi-material-button flex items-center justify-between bg-white border border-gray-400 rounded-2xl box-border text-gray-800 cursor-pointer font-roboto text-sm h-10 px-3 relative transition duration-200 ease-in-out hover:shadow-md hover:bg-gray-100 focus:bg-gray-200 active:bg-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:border-gray-200">
                     <div className="absolute inset-0 opacity-0 transition-opacity duration-200 ease-in-out"></div>

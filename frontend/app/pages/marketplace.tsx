@@ -29,7 +29,7 @@ export default function MarketPlace() {
     return (
         log ? (<div className='grid grid-cols-5 gap-1'>
             <div className="col-span-5">
-                <Navbar user={username} onClick={onClick} login={log}/>
+                <Navbar user={username} onClick={onClick} login={log} lp={false}/>
             </div>
             <div className="row-span-4 row-start-2 hidden sm:block">
                     <Sidebar />
