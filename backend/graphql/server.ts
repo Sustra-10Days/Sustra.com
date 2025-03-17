@@ -12,7 +12,7 @@ const typeDefs = fs.readFileSync('./backend/graphql/schema.graphql', 'utf8');
 // Create an Apollo Server instance
 const server = new ApolloServer({
   typeDefs,
-  //resolvers,
+  resolvers,
 });
 
 async function startServer() {
