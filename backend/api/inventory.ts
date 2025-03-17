@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getUserInvertory = async (userId: string) => {
+export const getUserInventory = async (userId: string) => {
   return await prisma.inventory.findMany({
     where: {userId},
     include: { charm: true }
