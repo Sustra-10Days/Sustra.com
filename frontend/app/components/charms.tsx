@@ -18,7 +18,7 @@ export default function Charms({ id, name, image, variant, quote, isRare, catego
   const [click, setClick] = useState(false);
 
   return (
-    <div className="aspect-square w-full">
+    <div className="aspect-[279.67/355.69] w-full">
       {/*  Front Card */}
       <div className={`items-center justify-center relative w-full h-full rounded-xl shadow-lg overflow-hidden bg-slate-200/60 border border-gray-200 hover:scale-105 transition duration-150 ${click && "rotate-y-180 hidden transition"} ${!click && "show"}`}>
         {/* Rarity */}
@@ -29,13 +29,13 @@ export default function Charms({ id, name, image, variant, quote, isRare, catego
         )}
 
         {/* Image */}
-        <img src={image} alt={name} className="w-full h-40 object-cover cursor-pointer" onClick={() => setClick(!click)} />
+        <img src={image} alt={name} className="w-full h-[65%] md:h-[80%] lg:h-[80%] object-cover cursor-pointer" onClick={() => setClick(!click)} />
 
         {/* Card Content */}
         <div className="p-3 justify-between flex flex-row">
           {/* Name & Variant */}
           <div className="mr-2">
-            <h2 className="text-sm font-bold text-black flex items-center gap-1">
+            <h2 className="text-sm font-bold text-black flex items-center gap-1 md:text-">
               {name}
               {category === "love" && "♥️"}
               {category === "study" && "📝"}

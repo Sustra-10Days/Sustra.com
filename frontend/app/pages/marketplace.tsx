@@ -11,6 +11,7 @@ import data from '@/app/data/charm.json'
 export default function MarketPlace() {
     const [log, setLogin] = useState(false);
     const [username, setUsername] = useState('Login');
+    const [email, setEmail] = useState('');
     const router = useRouter();
 
     useEffect(() => {
@@ -18,6 +19,7 @@ export default function MarketPlace() {
             if (user) {
                 setUsername(user.displayName || 'Login');
                 setLogin(true);
+                setEmail(user.email || '');
             }
             else { router.push('/login') }
         })
@@ -28,16 +30,17 @@ export default function MarketPlace() {
         router.push('/profile')
     }
     return (
-        log ? (<div className='grid grid-cols-5 gap-1'>
+        log ? (<div className='grid grid-cols-5 gap-1 max-w-full overflow-x-hidden'>
             <div className="col-span-5">
-                <MNavbar user={username} onClick={onClick} login={log} lp={false} />
+                <MNavbar user={username} email={email} onClick={onClick} login={log} lp={false} />
             </div>
             <div className="row-span-4 row-start-2 hidden sm:block">
                 <Sidebar />
             </div>
-            <div className="col-span-5 row-span-4 md:row-start-2 md:col-span-4 lg:col-span-4">
+            <div className="col-span-5 row-span-4 md:row-start-2 md:col-span-4 lg:col-span-4 lg:pr-20">
                 <main className="h-screen bg-white flex-1 p-4">
                     <h1 className="text-black font-semibold text-xl md:text-2xl">Recommended Charms</h1>
+                    <br></br>
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {data.charms.map((charm) => (
                             <div key={charm.id} >
