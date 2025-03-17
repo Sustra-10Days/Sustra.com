@@ -58,14 +58,15 @@ type RandomizedResult {
   inventory: Inventory!
 }
 
-# QURIES
+# QUERIES
 type Query {
   getUserInventory(userId: String!): [Inventory!]!
-}
+} 
 
 # MUTATIONS
 type Mutation {
   randomizeCharm(userId: String!): RandomizeResponse!
+  verify(token: String!): String
 }
 
 # RESPONSE TYPES
