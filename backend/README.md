@@ -1,35 +1,22 @@
-This is a [Node.js](https://nodejs.org/en) project bootstrapped with [`npm`](https://www.npmjs.com/).
+# Sustra Readme
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open http://localhost:4000/graphql to access the GraphQL API Playground.
-
-You can start querying the API by modifying the resolver functions inside the src/graphql directory. The server auto-restarts as you edit the files.
+## Introduction
+Sustra is a web-based e-commerce platform that allows users to buy, sell, and collect Chula Engineering charms
 
 
-## Learn More
+## Features
+1. **User Authentication** (Firebase Auth - Google Sign-In)  
+2. **Marketplace for Charms** (List of available charms, search & filter)  
+3. **Charm Checkout Process** (Simulated payment system)  
+4. **User Profile Page** (Personal info & charm collection)  
+5. **GraphQL API** (Fetch & manage charm data)  
 
-To learn more about GraphQL and the technologies used in this backend, check out the following resources:
 
-[GraphQL Documentation](https://graphql.org/) - Learn about GraphQL queries, mutations, and schemas.
+## Installation
+1. Clone this repository to your local machine.
+2. Navigate to the project directory using your terminal
 
-[Prisma Documentation](https://www.prisma.io/docs) - Understand how Prisma ORM interacts with PostgreSQL.
-
-[Next.js Documentation](https://nextjs.org/docs) - Since this project integrates with a Next.js frontend.
-
-## Deploy on Vercel
-The easiest way to deploy this backend is to use [Railway](https://railway.com/) for hosting PostgreSQL and deploying the API.
-
-Check out our backend deployment guide for more details.
+## Additional Notes
+1. Ensure that all dependencies are installed before running the server by running npm install in the project directory
+2. You can configure the server settings and routes in the src/app.ts file
+3. Make sure to handle any errors or exceptions that may occur during the server runtime
