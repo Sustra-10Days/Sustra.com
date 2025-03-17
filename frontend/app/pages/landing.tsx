@@ -46,9 +46,9 @@ export default function Landing() {
       {/* Circles */}
       <div className="col-span-3 row-span-4 row-start-2 flex flex-col items-center justify-center">
         <div className="flex items-center justify-center gap-[-10vw]">
-          <div className="relative w-48 h-48 lg:w-64 lg:h-64 bg-violet-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-2000 translate-y-30 translate-x-30 lg:translate-x-40 lg:translate-y-20"></div>
+          <div className="relative w-48 h-48 lg:w-64 lg:h-64 bg-violet-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-2000 translate-y-20 translate-x-30 lg:translate-x-40 lg:translate-y-20"></div>
           <div className="relative w-48 h-48 lg:w-64 lg:h-64 bg-pink-400 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob "></div>
-          <div className="relative w-48 h-48 lg:w-64 lg:h-64 bg-teal-200 rounded-full filter blur-2xl opacity-70 animate-blob animation-delay-4000 z-5 translate-y-30 -translate-x-30 lg:-translate-x-40 lg:translate-y-20"></div>
+          <div className="relative w-48 h-48 lg:w-64 lg:h-64 bg-teal-200 rounded-full filter blur-2xl opacity-70 animate-blob animation-delay-4000 z-5 translate-y-20 -translate-x-30 lg:-translate-x-40 lg:translate-y-20"></div>
         </div>
         {/* Text */}
         <div className="relative z-10 -translate-y-50 px-4 text-center font-poppins">
