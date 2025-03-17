@@ -61,6 +61,7 @@ type RandomizedResult {
 # QUERIES
 type Query {
   getUserInventory(userId: String!): [Inventory!]!
+  hello: String
 } 
 
 # MUTATIONS

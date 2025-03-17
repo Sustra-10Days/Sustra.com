@@ -1,5 +1,6 @@
 //import admin from "../config/firebase.ts";
-import { Pool } from 'pg';
+import pkg  from 'pg';
+const {Pool} =pkg;
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -9,7 +10,7 @@ const pool = new Pool({
   });
 const resolvers = {
     Query: {
-        hello: ()=> "Hello guys!!!!"
+        hello: ()=> "Hello guys!!!!",
         /*verify: async  ({ token }) => {
             try{
                 const decodedToken =await admin.auth().verifyIdToken(token);
@@ -25,6 +26,6 @@ const resolvers = {
                 throw new Error("Invalid or expired token.");
             }
         }*/
-    }
-}
+    },
+};
 export default resolvers;
