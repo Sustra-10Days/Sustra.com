@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "scripts": {
+    "start": "ts-node backend/graphql/.server.ts"
+  },
   "dependencies": {
     "@apollo/server": "^4.11.3",
     "dotenv": "^16.4.7",
