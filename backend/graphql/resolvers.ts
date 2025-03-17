@@ -1,4 +1,4 @@
-import admin from "../config/firebase.ts";
+//import admin from "../config/firebase.ts";
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 
