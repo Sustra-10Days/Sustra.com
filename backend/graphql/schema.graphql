@@ -58,16 +58,28 @@ type RandomizedResult {
   inventory: Inventory!
 }
 
+type User {
+  id:       String!
+  email:     String!
+  name:      String!
+  profileImage: String
+}
+
+type AuthMessage {
+  success: boolean,
+  message: String!,
+  user: User,
+}
 # QUERIES
 type Query {
   getUserInventory(userId: String!): [Inventory!]!
-  hello: String
+  hello: String!,
+  verify(token: String!): AuthMessage!
 } 
 
 # MUTATIONS
 type Mutation {
   randomizeCharm(userId: String!): RandomizeResponse!
-  verify(token: String!): String
 }
 
 # RESPONSE TYPES

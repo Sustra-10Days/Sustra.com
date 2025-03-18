@@ -5,11 +5,17 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+import {auth_queryResolvers, auth_mutationResolvers} from "../api/auth.ts";
+import { mergeResolvers } from "@graphql-tools/merge";
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL, 
   });
-const resolvers = {
-    Query: {
+const resolvers = mergeResolvers([
+    auth_queryResolvers,
+    auth_mutationResolvers,
+])
+/*{
+    /*Query: {
         hello: ()=> "Hello guys!!!!",
         /*verify: async  ({ token }) => {
             try{
@@ -25,7 +31,7 @@ const resolvers = {
                 console.error("Authentication error:", error);
                 throw new Error("Invalid or expired token.");
             }
-        }*/
+        }
     },
-};
+};*/
 export default resolvers;
