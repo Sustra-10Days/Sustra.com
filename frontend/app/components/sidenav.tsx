@@ -27,21 +27,39 @@ const Sidebar = () => {
         }
     };
 
+    const Checkbox = ({ checked, onChange, label }: { checked: boolean; onChange: () => void; label: string }) => (
+        <label className="flex items-center space-x-2 text-gray-700 mb-2 cursor-pointer">
+            <div className="relative flex items-center justify-center">
+                <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={onChange}
+                    className="absolute opacity-0 w-4 h-4"
+                />
+                <div className={`w-4 h-4 border border-gray-300 rounded flex items-center justify-center ${checked ? 'bg-blue-600' : 'bg-white'}`}>
+                    {checked && (
+                        <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    )}
+                </div>
+            </div>
+            <span>{label}</span>
+        </label>
+    );
+
     return (
         <aside className="w-64 p-4 items-center justify-center flex-col">
             {/* Category Filter */}
             <div className="mb-6 bg-white px-20">
                 <h3 className="text-lg font-semibold mb-2 text-black">Color</h3>
                 {categories.map((category) => (
-                    <label key={category} className="flex items-center space-x-2 text-gray-700 text-right">
-                        <input
-                            type="checkbox"
-                            checked={selectedCategories.includes(category)}
-                            onChange={() => handleCheckboxChange(category, "color")}
-                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-200"
-                        />
-                        <span>{category}</span>
-                    </label>
+                    <Checkbox
+                        key={category}
+                        checked={selectedCategories.includes(category)}
+                        onChange={() => handleCheckboxChange(category, "color")}
+                        label={category}
+                    />
                 ))}
             </div>
 
@@ -49,15 +67,12 @@ const Sidebar = () => {
             <div className="mb-6 px-20">
                 <h3 className="text-lg font-semibold mb-2 text-black">Category</h3>
                 {rarities.map((rarity) => (
-                    <label key={rarity} className="flex items-center space-x-2 text-gray-700">
-                        <input
-                            type="checkbox"
-                            checked={selectedRarities.includes(rarity)}
-                            onChange={() => handleCheckboxChange(rarity, "category")}
-                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-200"
-                        />
-                        <span>{rarity}</span>
-                    </label>
+                    <Checkbox
+                        key={rarity}
+                        checked={selectedRarities.includes(rarity)}
+                        onChange={() => handleCheckboxChange(rarity, "category")}
+                        label={rarity}
+                    />
                 ))}
             </div>
 
@@ -65,15 +80,12 @@ const Sidebar = () => {
             <div className="mb-6 px-20">
                 <h3 className="text-lg font-semibold mb-2 text-black">Major</h3>
                 {majors.map((major) => (
-                    <label key={major} className="flex items-center space-x-2 text-gray-700">
-                        <input
-                            type="checkbox"
-                            checked={selectedMajors.includes(major)}
-                            onChange={() => handleCheckboxChange(major, "size")}
-                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-200"
-                        />
-                        <span>{major}</span>
-                    </label>
+                    <Checkbox
+                        key={major}
+                        checked={selectedMajors.includes(major)}
+                        onChange={() => handleCheckboxChange(major, "size")}
+                        label={major}
+                    />
                 ))}
             </div>
         </aside>

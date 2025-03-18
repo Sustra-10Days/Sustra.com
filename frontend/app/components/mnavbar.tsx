@@ -11,7 +11,7 @@ interface MNavbarProps {
     lp: boolean;
 }
 
-export default function MNavbar({ user, email,login, onClick, lp }: MNavbarProps) {
+export default function MNavbar({ user, email, login, onClick, lp }: MNavbarProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [showSidebar, setShowSidebar] = useState(false);
@@ -49,16 +49,17 @@ export default function MNavbar({ user, email,login, onClick, lp }: MNavbarProps
             {!lp && (
                 <div className="sm:hidden flex items-center space-x-6">
                     <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                        <svg className="w-6 h-6 text-violet-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="3" y1="15" x2="15" y2="15" />
-                            <line x1="3" y1="6" x2="21" y2="6" />
+                        <svg className="text-indigo-950 w-6 h-6" viewBox="0 0 22 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 1.375C0 1.01033 0.144866 0.660591 0.402728 0.402728C0.660591 0.144866 1.01033 0 1.375 0H20.625C20.9897 0 21.3394 0.144866 21.5973 0.402728C21.8551 0.660591 22 1.01033 22 1.375C22 1.73967 21.8551 2.08941 21.5973 2.34727C21.3394 2.60513 20.9897 2.75 20.625 2.75H1.375C1.01033 2.75 0.660591 2.60513 0.402728 2.34727C0.144866 2.08941 0 1.73967 0 1.375Z" fill="#070648" />
+                            <path d="M1.375 8.25C1.01033 8.25 0.660591 8.39487 0.402728 8.65273C0.144866 8.91059 0 9.26033 0 9.625C0 9.98967 0.144866 10.3394 0.402728 10.5973C0.660591 10.8551 1.01033 11 1.375 11H12.375C12.7397 11 13.0894 10.8551 13.3473 10.5973C13.6051 10.3394 13.75 9.98967 13.75 9.625C13.75 9.26033 13.6051 8.91059 13.3473 8.65273C13.0894 8.39487 12.7397 8.25 12.375 8.25H1.375Z" fill="#070648" />
                         </svg>
+
                     </button>
                 </div>
             )}
             {!lp && (
                 <div className="sm:hidden flex items-center space-x-6">
-                    <Backpack className="w-11 h-11 text-purple-800 hover:bg-purple-100 cursor-pointer p-2 transition-all duration-500 rounded-lg" onClick={()=>{router.push('/inventory')}} />
+                    <Backpack className="w-11 h-11 text-purple-800 hover:bg-purple-100 cursor-pointer p-2 transition-all duration-200 rounded-lg" onClick={() => { router.push('/inventory') }} />
                 </div>
             )}
             {/* User Icon */}
@@ -83,9 +84,9 @@ export default function MNavbar({ user, email,login, onClick, lp }: MNavbarProps
             {/* Cart and User */}
             <div className="hidden sm:flex items-center space-x-6">
                 {login && (
-                    <Backpack className="w-11 h-11 text-purple-800 hover:bg-purple-100 cursor-pointer p-2 transition-all duration-500 rounded-lg" onClick={()=>{router.push('/inventory')}} />
+                    <Backpack className="w-11 h-11 text-purple-800 hover:bg-purple-100 cursor-pointer p-2 transition-all duration-200 rounded-lg" onClick={() => { router.push('/inventory') }} />
                 )}
-                <div className="flex items-center space-x-2 hover:bg-purple-100 rounded-lg p-2 cursor-pointer transition duration-500" onClick={()=>{router.push('/profile')}}>
+                <div className="flex items-center space-x-2 hover:bg-purple-100 rounded-lg p-2 cursor-pointer transition duration-200" onClick={() => { router.push('/profile') }}>
                     <div className="w-10 h-10 bg-purple-300/40 rounded-full flex items-center justify-center">
                         <User className="w-6 h-6 text-purple-800" />
                     </div>

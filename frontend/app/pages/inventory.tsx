@@ -71,7 +71,7 @@ export default function Inventory() {
                 <div className="col-span-1 md:col-span-full">
                   <div className="w-full aspect-[279.67/355.69] border-2 border-dashed border-purple-300 rounded-3xl grid items-center justify-center">
                     <button
-                      className="w-12 h-12 bg-purple-100 rounded-full grid items-center justify-center hover:bg-purple-300 transition"
+                      className="w-12 h-12 bg-purple-100 rounded-full grid items-center justify-center hover:bg-purple-300 transition shadow-lg hover:duration-200 hover:scale-105"
                       onClick={() => {
                         router.push("/marketplace");
                       }}
@@ -86,8 +86,8 @@ export default function Inventory() {
             ))}
           </div>
           {/* BUTTON */}
-          <div className="text-center sm:mb-6 md:mb-24 lg:mb-24">
-            <button className="bg-purple-200 px-6 py-2 rounded-lg text-purple-900 hover:bg-purple-300 transition">
+          <div className="text-center sm:pb-6 md:pb-24 lg:pb-24">
+            <button className="bg-purple-200 px-6 py-2 rounded-lg text-purple-900 hover:bg-purple-300 transition hover:scale-105 hover:duration-200 shadow-lg">
               Random
             </button>
           </div>
