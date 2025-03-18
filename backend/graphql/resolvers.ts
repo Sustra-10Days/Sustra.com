@@ -3,12 +3,12 @@ import pkg  from 'pg';
 const {Pool} =pkg;
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({path:'../.env'});
 
-import {auth_queryResolvers, auth_mutationResolvers} from "../api/auth.ts";
 import { inventoryResolvers } from "../api/inventory";
 import { randomizeCharmResolvers } from "../api/randomizer";
 import { expirationCharmsResolvers } from "../api/expiration";
+import {auth_queryResolvers, auth_mutationResolvers} from "../api/auth.js";
 import { mergeResolvers } from "@graphql-tools/merge";
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL, 
