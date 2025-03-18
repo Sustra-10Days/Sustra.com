@@ -91,3 +91,9 @@ type RandomizeResponse {
   message: String!
   results: [RandomizedResult!]!
 }
+
+type Query {
+  getMarketplaceCharms: [Charm!]!  
+  searchCharms(name: String!): [Charm!]!  
+  filterCharms(categories: [Category], majors: [Major], rarities: [Rarity]): [Charm!]!
+}
