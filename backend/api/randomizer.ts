@@ -1,5 +1,5 @@
 import { PrismaClient, Inventory, Charm } from "@prisma/client";
-import { addCharmtoInventory } from "./inventory";
+import { addCharmtoInventory } from "./inventory.js";
 
 const prisma = new PrismaClient();
 

@@ -66,20 +66,23 @@ type User {
 }
 
 type AuthMessage {
-  success: boolean,
-  message: String!,
-  user: User,
+  success: Boolean
+  message: String!
+  user: User
 }
 # QUERIES
 type Query {
   getUserInventory(userId: String!): [Inventory!]!
-  hello: String!,
+  hello: String!
   verify(token: String!): AuthMessage!
 } 
 
 # MUTATIONS
 type Mutation {
   randomizeCharm(userId: String!): RandomizeResponse!
+  addCharmtoInventory(userId: String!,charmId: String!, source: String!): Inventory
+  registerUser(id:String!,email:String!,name:String!,picture:String): Boolean
+  removeExpiredCharms: String!
 }
 
 # RESPONSE TYPES

@@ -1,8 +1,9 @@
 import admin from "../config/firebase.js";
-import {Pool} from 'pg';
+import pkg  from 'pg';
+const {Pool} =pkg;
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({path:'./backend/.env'});
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -42,12 +43,12 @@ export const auth_queryResolvers = {
 };
 export const auth_mutationResolvers = {
     Mutation: {
-        registerUser: async ({uid,email,name,picture}:{uid:string,email:string,name:string,picture:string}) =>{
+        registerUser: async ({id,email,name,picture}:{id:string,email:string,name:string,picture:string}) =>{
             try{
                 const client = await pool.connect();
         
                 const checkQuery = 'SELECT * FROM users WHERE id = $1 OR email = $2';
-                const checkValues = [uid, email];
+                const checkValues = [id, email];
                 const checkResult = await client.query(checkQuery, checkValues);
         
                 if (checkResult.rows.length > 0) {
@@ -56,10 +57,11 @@ export const auth_mutationResolvers = {
                     return;
                 }
                 const insertQuery = 'INSERT INTO users (id, email,name,profileImage) VALUES ($1, $2,$3,$4) RETURNING *';
-                const insertValues = [uid, email,name,picture];
+                const insertValues = [id, email,name,picture];
                 const result = await client.query(insertQuery, insertValues);
                 console.log('User added:', result.rows[0]);
                 client.release();
+                return true;
             }catch (err) {
                 console.error('Error processing user registration:', err);
             }

@@ -19,5 +19,12 @@
     "@types/pg": "^8.11.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
-  }
+  },
+  "name": "sustra.com",
+  "description": "Sustra is a web-based e-commerce platform that allows users to buy, sell, and collect Chula Engineering charms",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
