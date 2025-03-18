@@ -59,6 +59,7 @@ model Charm {
   rarity Rarity
   totalQuantity Int
   availableQuantity Int @default(5)
+  major Major?
   inventory Inventory[]
   Wishlist Wishlist[]
 }
