@@ -27,6 +27,19 @@ export const removeExpiredCharms = async () =>{
       }),
     ]);
   }
+}
 
-
+export const expirationCharmsResolvers = {
+  Mutation: {
+      removeExpiredCharms: async () => {
+        try {
+          await removeExpiredCharms();
+          return {
+            message: "Expired charms removed successfully.",
+          };
+        } catch (error: any) {
+          throw new Error(error.message);
+        }
+      },
+    },
 }

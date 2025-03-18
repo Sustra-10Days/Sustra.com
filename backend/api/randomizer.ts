@@ -66,8 +66,20 @@ export const randomizeCharm = async (userId: string) => {
     message: `Randomized ${randomizedCharms.length} charm(s) successfully!`,
     results: randomizedCharms,
   };
-
 };
+
+export const randomizeCharmResolvers = {
+  Mutation: {
+    randomizeCharm: async (_: any, { userId }: { userId: string }) => {
+    try {
+        const result = await randomizeCharm(userId);
+        return result;
+    }catch (error: any) {
+        throw new Error(error.message);
+    }
+    },
+  }
+}
 
 
 

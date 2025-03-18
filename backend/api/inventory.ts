@@ -58,3 +58,27 @@ export const addCharmtoInventory = async (userId: string, charmId: string, sourc
     },
   });
 }
+
+export const inventoryResolvers = {
+  Query: {
+    getUserInventory: async (_: any, { userId }: { userId: string }) => {
+      try {
+        const inventory = await getUserInventory(userId);
+        return inventory;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+  },
+
+  Mutation: {
+      addCharmtoInventory: async (_: any, { userId, charmId, source }: { userId: string, charmId: string, source: "random" | "market" }) => {
+        try {
+          const inventoryEntry = await addCharmtoInventory(userId, charmId, source);
+          return inventoryEntry;
+        } catch (error: any) {
+          throw new Error(error.message);
+        }
+      },
+    }
+}

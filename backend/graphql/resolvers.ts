@@ -6,6 +6,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import {auth_queryResolvers, auth_mutationResolvers} from "../api/auth.ts";
+import { inventoryResolvers } from "../api/inventory";
+import { randomizeCharmResolvers } from "../api/randomizer";
+import { expirationCharmsResolvers } from "../api/expiration";
 import { mergeResolvers } from "@graphql-tools/merge";
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL, 
@@ -13,7 +16,13 @@ const pool = new Pool({
 const resolvers = mergeResolvers([
     auth_queryResolvers,
     auth_mutationResolvers,
+    inventoryResolvers,
+    randomizeCharmResolvers,
+    expirationCharmsResolvers,
 ])
+
+
+
 /*{
     /*Query: {
         hello: ()=> "Hello guys!!!!",
