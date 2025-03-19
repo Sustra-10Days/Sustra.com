@@ -1,4 +1,4 @@
-import { PrismaClient, $Enums } from "@prisma/client";
+import { PrismaClient, $Enums, Category, Rarity, Major } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ export const getFilteredCharms = async (
   const filters: any = {
     AND: [
       categories ? { category: { in: categories } } : {},
-      majors ? { major: { in: majors } } : {},
+      majors ? { OR: [{major: { in: majors } },{major:null}]} : {},
       rarities ? { rarity: { in: rarities } } : {},
     ],
   };
@@ -65,7 +65,7 @@ export const charmResolvers = {
     // Filter charms by multiple categories, majors, and rarities, then search by name (optional)
     filterCharms: async (
       _: any,
-      { categories, majors, rarities, name }: { categories?: $Enums.Category[]; majors?: $Enums.Major[]; rarities?: $Enums.Rarity[]; name?: string }
+      { categories, majors, rarities, name }: { categories?: Category[]; majors?: Major[]; rarities?: Rarity[]; name?: string }
     ) => {
       try {
         return await getFilteredCharms(categories, majors, rarities, name); // Call the combined function
