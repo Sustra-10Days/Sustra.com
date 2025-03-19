@@ -46,7 +46,7 @@ export const randomizeCharm = async (userId: string) => {
       continue;
     }
 
-    const InventoryEntry = await addCharmtoInventory(userId, selectedCharm.id, "random");
+    const InventoryEntry = await addCharmtoInventory(userId, selectedCharm.id, "market");
     
     
     randomizedCharms.push({

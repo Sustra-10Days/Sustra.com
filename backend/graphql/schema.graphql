@@ -1,4 +1,5 @@
 # ENUMS
+scalar DateTime
 
 enum Category {
   LOVE
@@ -49,7 +50,7 @@ type Charm {
 type Inventory {
   id: String!
   userId: String!
-  charm: Charm!
+  charmId: String!
   acquiredAt: String!
   expiresAt: String
 }
@@ -64,12 +65,22 @@ type User {
   email:     String!
   name:      String
   profileImage: String
+  lastRandomized: DateTime
+  googleId: String!
+  studentId: String 
+  year:      Int
+  faculty:   String
+  major:     Major
 }
 
 type AuthMessage {
   success: Boolean
   message: String!
   user: User
+}
+type EditMessage{
+  success: Boolean!
+  message: String!
 }
 # QUERIES
 type Query {
@@ -84,6 +95,7 @@ type Mutation {
   addCharmtoInventory(userId: String!,charmId: String!, source: String!): Inventory
   registerUser(id:String!,email:String!,name:String,picture:String): Boolean
   removeExpiredCharms: String!
+  editUser(uid: String!,faculty:String,major:String,name:String,profileImage:String,studentId:String,year:Int): EditMessage!
 }
 
 # RESPONSE TYPES

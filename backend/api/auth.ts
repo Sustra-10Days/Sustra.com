@@ -45,7 +45,11 @@ export const auth_queryResolvers = {
 export const auth_mutationResolvers = {
     Mutation: {
         registerUser: async (
-            _parent:any,{id,email,name,picture}: {id:string, email:string, name?:string, picture?:string}
+            _parent:any,{id,email,name,picture}: 
+            {id:string, 
+            email:string,
+            name?:string,
+            picture?:string}
         ) =>{
             try{
                 const client = await pool.connect();
@@ -68,5 +72,65 @@ export const auth_mutationResolvers = {
                 console.error('Error processing user registration:', err);
             }
         },
+        editUser: async(_parent:any, {uid,faculty,major,name,profileImage,studentId,year}:
+            {uid:string,
+            faculty?: string,
+            major?:string, 
+            name?:string,
+            profileImage?:string,
+            studentId?:string,
+            year?:number}) => {
+            try{
+                const client = await pool.connect();
+                
+                const fieldsToUpdate: string[] = [];
+                const values: any[] = [];
+                if(faculty!==undefined){
+                    fieldsToUpdate.push('faculty = $'+(values.length+1));
+                    values.push(faculty)
+                }
+                if(major!==undefined){
+                    fieldsToUpdate.push('major = $'+(values.length+1));
+                    values.push(major)
+                }
+                if(name!==undefined){
+                    fieldsToUpdate.push('name = $'+(values.length+1));
+                    values.push(name)
+                }
+                if(profileImage!==undefined){
+                    fieldsToUpdate.push('"profileImage" = $'+(values.length+1));
+                    values.push(profileImage)
+                }
+                if(studentId==undefined){
+                    fieldsToUpdate.push('"studentId" = $'+(values.length+1));
+                    values.push(studentId)
+                }
+                if(year==undefined){
+                    fieldsToUpdate.push('year = $'+(values.length+1));
+                    values.push(year)
+                }
+                if(fieldsToUpdate.length ===0 ){
+                    client.release();
+                    return {success:false,message:'No fields to update'};
+                }
+                values.push(uid);
+                console.log(uid)
+                const query = `UPDATE "User" SET ${fieldsToUpdate.join(', ')} WHERE id = $${values.length} RETURNING *`;
+                const result = await client.query(query, values);
+                //console.log(result)
+                client.release();
+
+                if (result.rows.length > 0) {
+                    return { success: true, message: 'User updated successfully', user: result.rows[0] };
+                } else {
+                    return { success: false, message: 'User not found' };
+                }
+        }catch(err){
+            console.error('Error updating user:', err);
+            return { success: false, message: 'Database error' }
+        }
+
+        },
+
     },
 };

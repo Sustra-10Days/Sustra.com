@@ -38,11 +38,11 @@ export const addCharmtoInventory = async (userId: string, charmId: string, sourc
       where: { id: userId },
       select: { lastRandomized: true },
     });
+    console.log(lastRandomized)
     const now = new Date();
     if (lastRandomized?.lastRandomized && new Date(lastRandomized.lastRandomized).toDateString() === now.toDateString()) {
       throw new Error("You have already randomized a charm today.");
     }
-
     await prisma.user.update({
       where: { id: userId },
       data: { lastRandomized: now },

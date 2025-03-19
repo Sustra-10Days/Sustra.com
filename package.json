@@ -12,6 +12,7 @@
     "firebase-admin": "^13.2.0",
     "fs": "^0.0.1-security",
     "graphql": "^16.10.0",
+    "graphql-scalars": "^1.24.2",
     "graphql-tag": "^2.12.6",
     "pg": "^8.14.1"
   },
