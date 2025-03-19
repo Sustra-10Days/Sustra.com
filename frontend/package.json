@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.4",
-    "apollo-server-micro": "^3.13.0",
+    "@apollo/experimental-nextjs-app-support": "^0.11.11",
     "firebase": "^11.4.0",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
