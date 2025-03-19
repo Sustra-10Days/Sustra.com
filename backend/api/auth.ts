@@ -2,6 +2,9 @@ import admin from "../config/firebase.js";
 import pkg  from 'pg';
 const {Pool} =pkg;
 import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 dotenv.config({path:'./backend/.env'});
 
@@ -39,6 +42,15 @@ export const auth_queryResolvers = {
                 throw new Error("Invalid or expired token.");
             }
         },
+        getUserbyId: async (_:any,{uid}:{uid:string}) => {
+            
+            const user = await prisma.user.findUnique({
+                where: { id : uid },
+                select: { name : true ,major: true}
+              });
+            //console.log(user)
+            return user
+        }
 
     },
 };

@@ -82,11 +82,16 @@ type EditMessage{
   success: Boolean!
   message: String!
 }
+type getUserMessage{
+  name: String
+  major: Major
+}
 # QUERIES
 type Query {
   getUserInventory(userId: String!): [Inventory!]!
   hello: String!
   verify(token: String!): AuthMessage!
+  getUserbyId(uid:String!): getUserMessage!
 } 
 
 type registerUserMessage{
