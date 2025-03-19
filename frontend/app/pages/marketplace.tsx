@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import client from "@/lib/ApolloClient";
 import { charmsQuery } from "@/lib/charmsQuery";
+import { addCharmtoInventory } from "@/lib/addCharm"
+import { sources } from "next/dist/compiled/webpack/webpack";
 
 export default function MarketPlace() {
 	const [log, setLogin] = useState<boolean>(false);
@@ -16,14 +18,17 @@ export default function MarketPlace() {
 	const [showMobileSidebar, setShowMobileSidebar] = useState<boolean>(false);
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [error, setError] = useState('');
+	const [uid,setUid] = useState('');
+	const [showModal, setShowModal] = useState<boolean>(false); // Modal for Add to inventory successfully
+	const [showModal2, setShowModal2] = useState<boolean>(false);
 	const router = useRouter();
-
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
 				setUsername(user.displayName || "Login");
 				setLogin(true);
 				setEmail(user.email || "");
+				setUid(user.uid||'');
 			} else {
 				router.push("/login");
 			}
@@ -112,7 +117,7 @@ export default function MarketPlace() {
 		};
 
 		fetchCharms();
-	}, [selectedCategories, selectedMajors, selectedRarities, client]);
+	}, [selectedCategories, selectedMajors, selectedRarities, client, showModal]);
 
 	const handleCheckboxChange = (item: string, type: string): void => {
 		if (type === "color") {
@@ -130,8 +135,31 @@ export default function MarketPlace() {
 		}
 	};
 
+	const handleAddChange = async (id: string, newState: boolean) => {
+		if (newState){
+			try{
+				const {data} = await client.mutate({
+					mutation:addCharmtoInventory,
+					variables:{
+						addCharmtoInventoryUserId2:uid,
+						charmId:id,
+						source:'market',
+					}
+				})
+				setShowModal(true);
+				setTimeout(() => setShowModal(false), 2000)
+			}
+			catch(error){
+				setShowModal2(true);
+				setTimeout(() => setShowModal2(false), 2000)
+				console.error("Error adding charm to inventory:", error);
+      			setError("Failed to add charm to inventory. Please try again.");
+			}
+		}
+	  };
+
 	return log ? (
-		<div className="grid grid-cols-5 gap-1 max-w-full overflow-x-hidden">
+		<div className="grid grid-cols-5 gap-1 max-w-full h-screen overflow-x-hidden">
 			<div className="col-span-5">
 				<MNavbar
 					user={username}
@@ -153,7 +181,7 @@ export default function MarketPlace() {
 				/>
 			</div>
 			<div className="col-span-5 row-span-4 md:row-start-2 md:col-span-4 lg:col-span-4 lg:pr-20">
-				<main className="h-screen bg-white flex-1 p-4">
+				<main className="bg-white flex-1 p-4 overflow-y-auto h-full">
 					<h1 className="text-indigo-950 hidden md:block font-semibold text-xl md:text-2xl">
 						Recommended Charms
 					</h1>
@@ -241,15 +269,31 @@ export default function MarketPlace() {
 									image={charm.image}
 									variant={charm.variant}
 									quote={charm.quote}
-									isRare={charm.isRare}
+									isRare={charm.rarity !== 'COMMON'}
 									category={charm.category}
+									quantity={charm.availableQuantity}
+									onAddChange={handleAddChange}
+									invp= {false}
 								/>
 							</div>
 						))}
 					</div>
 				</main>
 			</div>
-
+			{showModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg flex items-center gap-4 animate-fade-in-out">
+                        <span className="text-gray-900 font-semibold">Charm added to inventory!</span>
+                    </div>
+                </div>
+            )}
+			{showModal2 && (
+                <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg flex items-center gap-4 animate-fade-in-out">
+                        <span className="text-gray-900 font-semibold">Cannot add, Inventory Full!</span>
+                    </div>
+                </div>
+            )}
 			{/* Mobile Filter Modal */}
 			{showMobileSidebar && (
 				<div className="fixed inset-0 z-50 sm:hidden flex items-center justify-center p-4">

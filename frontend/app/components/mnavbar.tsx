@@ -42,7 +42,7 @@ export default function MNavbar({ user, email, login, onClick, lp }: MNavbarProp
             <div className=" hidden sm:block">
                 <div className="flex items-center space-x-6">
                     <div className="text-2xl font-bold text-black/75 cursor-pointer" onClick={handleLogo}>Sustra</div>
-                    <a className="text-violet-900/80 font-medium hover:text-violet-900 transition duration-100 cursor-pointer onClick={()=>{router.push('/marketplace')}}">Items</a>
+                    <a className="text-violet-900/80 font-medium hover:text-violet-900 transition duration-100 cursor-pointer" onClick={()=>{router.push('/marketplace')}}>Items</a>
                 </div>
             </div>
             {/* Mobile Menu Button */}

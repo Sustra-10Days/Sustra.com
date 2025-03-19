@@ -11,11 +11,22 @@ interface Charm {
   quote: string;
   isRare: boolean;
   category: string;
+  quantity: number;
+  onAddChange?: (id: string, newState: boolean) => void;
+  invp: boolean;
 }
 
-export default function Charms({ id, name, image, variant, quote, isRare, category }: Charm) {
+export default function Charms({ id, name, image, variant, quote, isRare, category, quantity, onAddChange, invp }: Charm) {
   const [add, setAdd] = useState(false);
   const [click, setClick] = useState(false);
+  const handleAddClick = () => {
+    const newState = !add;
+    setAdd(newState);
+    if (onAddChange) {
+      onAddChange(id, newState); // Notify parent component of the state change
+    }
+    setTimeout(() => setAdd(false), 2000);
+  };
 
   return (
     <div className="aspect-[279.67/355.69] w-full">
@@ -35,19 +46,21 @@ export default function Charms({ id, name, image, variant, quote, isRare, catego
         <div className="p-3 justify-between flex flex-row">
           {/* Name & Variant */}
           <div className="mr-2">
-            <h2 className="text-sm font-bold text-black flex items-center gap-1 md:text-">
+            <h2 className="text-sm font-bold text-black flex items-center gap-1">
               {name}
-              {category === "love" && "♥️"}
-              {category === "study" && "📝"}
-              {category === "money" && "💸"}
-              {category === "health" && "🛡️"}
+              {category === "LOVE" && "♥️"}
+              {category === "STUDY" && "📝"}
+              {category === "MONEY" && "💸"}
+              {category === "HEALTH" && "🛡️"}
+              
             </h2>
             <p className="text-gray-800 text-xs">{variant}</p>
+            {!invp && <p className="text-gray-800 text-xs">Stocks : {quantity}</p>}
           </div>
-          <button className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 
-            ${add ? "bg-black" : "bg-white"}`} onClick={() => setAdd(!add)}>
+          {isRare || !invp && <button className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 
+            ${add ? "bg-black" : "bg-white"}`} onClick={handleAddClick}>
             {add ? <Check className="w-4 h-4 cursor-pointer text-white" /> : <Plus className="w-4 h-4 text-gray-700" />}
-          </button>
+          </button>}
         </div>
       </div>
 

@@ -1,29 +1,61 @@
 "use client";
 import MNavbar from "../components/mnavbar";
-import { User, Edit, Trash2, Package, X } from "lucide-react";
+import { User, Edit } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/config";
+import { verify } from '@/lib/getUser';
+import client from "@/lib/ApolloClient";
+import { auth } from '@/app/firebase/config';
+import { modify } from '@/lib/modifyUser';
 
 export default function Profile() {
   const [user, setUser] = useState("Login");
   const [login, setLogin] = useState(false);
   const [email, setEmail] = useState('');
-  const [major, setMajor] = useState("ICE");
+  const [major, setMajor] = useState("");
+  const [username, setUsername] = useState("");
+  const [uid, setUid] = useState("");
   const router = useRouter();
 
+  const fetchUserData = async () => {
+    if (uid && username && username !== "Anonymous") {
+      try {
+        console.log("Fetching user data for:", uid, username);
+        const { data } = await client.query({
+          query: verify,
+          variables: { uid: uid },
+          fetchPolicy: 'network-only' // Force fresh data from server
+        });
+
+        if (data && data.verify) {
+          setMajor(data.getUserbyId.major);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+  };
+
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const displayName = user.displayName;
-        setUser(displayName || "Login");
-        setLogin(true);
-        setEmail(user.email || '');
-        setUsername(user.displayName || "Anonymous");
+        try {
+          const displayName = user.displayName;
+          setUser(displayName || "Login");
+          setLogin(true);
+          setEmail(user.email || '');
+          setUsername(user.displayName || "Anonymous");
+          setUid(user.uid);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      } else {
+        router.push('/login');
       }
     });
-  }, []);
+    return () => unsubscribe();
+  }, [router]);
 
   const [showEdit, setShowEdit] = useState(false);
   const [isVisible, setVisible] = useState(false);
@@ -44,13 +76,39 @@ export default function Profile() {
     }
   }, [showEdit]);
 
-  const [username, setUsername] = useState("");
+  const handleSaveProfile = async () => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      try {
+        const uid = currentUser.uid;
+        const { data } = await client.mutate({
+          mutation: modify,
+          variables: {
+            uid: uid,
+            major: major,
+            name: username,
+          },
+        });
+        if (data.editUser.success) {
+          alert("Profile updated successfully!");
+          // Update UI states
+          setUser(username);
+          setMajor(major);
+          setShowEdit(false);
+        } else {
+          alert("Failed: " + data.editUser.message);
+        }
+      } catch (error: any) {
+        console.error("Error:", error);
+        alert("Error: " + error.message);
+      }
+    }
+  };
 
-  const handleSaveProfile = () => {
-    //TODO update the user profile in Firebase
-    setUser(username);
-    setShowEdit(false);
-};
+  useEffect(() => {
+    fetchUserData();
+  }, [uid, username,isShown])
+
 
   return (
     <div className="min-h-screen w-screen">
@@ -85,16 +143,16 @@ export default function Profile() {
       </div>
       {isShown && (
         <div
-        className={`fixed inset-0 bg-white z-[9999] flex items-center justify-center transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-        onClick={closeModal}
-      >
-        <div
-          className={`bg-white rounded-lg p-6 w-full max-w-md mx-4 transition-all duration-300 border-solid border-2 border-gray-100 shadow-lg ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-          onClick={(e) => e.stopPropagation()}
+          className={`fixed inset-0 bg-white z-[9999] flex items-center justify-center transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+          onClick={closeModal}
         >
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-indigo-950">Edit Profile</h2>
-          </div>
+          <div
+            className={`bg-white rounded-lg p-6 w-full max-w-md mx-4 transition-all duration-300 border-solid border-2 border-gray-100 shadow-lg ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-indigo-950">Edit Profile</h2>
+            </div>
 
             <div className="space-y-5">
               <div>
@@ -114,13 +172,29 @@ export default function Profile() {
                 <label htmlFor="major" className="block text-sm font-medium text-indigo-950 mb-1">
                   Major
                 </label>
-                <input
-                  type="text"
+                <select
                   id="major"
                   value={major}
                   onChange={(e) => setMajor(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300"
-                />
+                >
+                  <option value="COMPUTER">COMPUTER</option>
+                  <option value="CEDT">CEDT</option>
+                  <option value="CHEMICAL">CHEMICAL</option>
+                  <option value="MECHANICAL">MECHANICAL</option>
+                  <option value="ELECTRICAL">ELECTRICAL</option>
+                  <option value="PETROLEUM">PETROLEUM</option>
+                  <option value="CIVIL">CIVIL</option>
+                  <option value="INDUSTRIAL">INDUSTRIAL</option>
+                  <option value="SURVEY">SURVEY</option>
+                  <option value="ENVIRONMENTAL">ENVIRONMENTAL</option>
+                  <option value="NUCLEAR">NUCLEAR</option>
+                  <option value="ADME">ADME</option>
+                  <option value="NANO">NANO</option>
+                  <option value="ICE">ICE</option>
+                  <option value="AERO">AERO</option>
+                  <option value="AI">AI</option>
+                </select>
               </div>
 
               <div className=" flex pt-4 items-center justify-center">
