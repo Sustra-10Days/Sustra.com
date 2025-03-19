@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({path:'../.env'});
 
-//import { inventoryResolvers } from "../api/inventory.js";
+import { inventoryResolvers } from "../api/inventory.js";
 //import { randomizeCharmResolvers } from "../api/randomizer.js";
 //import { expirationCharmsResolvers } from "../api/expiration.js";
 import {auth_queryResolvers, auth_mutationResolvers} from "../api/auth.js";
@@ -18,7 +18,7 @@ const pool = new Pool({
 const resolvers = mergeResolvers([
     auth_queryResolvers,
     auth_mutationResolvers,
-    //inventoryResolvers,
+    inventoryResolvers,
     //randomizeCharmResolvers,
     //expirationCharmsResolvers,
     //charmResolvers,
