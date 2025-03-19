@@ -44,7 +44,9 @@ export const auth_queryResolvers = {
 };
 export const auth_mutationResolvers = {
     Mutation: {
-        registerUser: async (_parent:any,{id,email,name,picture}:{id:string,email:string,name:string,picture:string}) =>{
+        registerUser: async (
+            _parent:any,{id,email,name,picture}: {id:string, email:string, name?:string, picture?:string}
+        ) =>{
             try{
                 const client = await pool.connect();
                 const checkQuery = 'SELECT * FROM "User" WHERE id = $1 OR email = $2';
@@ -57,7 +59,7 @@ export const auth_mutationResolvers = {
                     return false;
                 }
                 const insertQuery = 'INSERT INTO "User" (id, email,name,"profileImage","googleId") VALUES ($1, $2,$3,$4,$5) RETURNING *';
-                const insertValues = [id, email,name,picture,id];
+                const insertValues = [id, email,name||null,picture||null,id];
                 const result = await client.query(insertQuery, insertValues);
                 console.log('User added:', result.rows[0]);
                 client.release();
