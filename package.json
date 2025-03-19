@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "postinstall": "npx prisma generate",
+    "postinstall": "npx prisma generate --schema=$(pwd)/backend/prisma/schema.prisma",
     "start": "node --loader ts-node/esm backend/graphql/server.ts"
   },
   "dependencies": {
