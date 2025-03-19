@@ -13,27 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User {
-  id        String  @id @default(uuid())
-  email     String  @unique
-  name      String?
-  googleId  String  @unique  // Store Google ID for login
-  studentId String? @unique  // Optional but unique
-  year      Int?    // Year of study
-  major     Major?
-  orders    Order[]
-}
-
 enum Major {
   COMPUTER
+  CEDT
   CHEMICAL
   MECHANICAL
   ELECTRICAL
   PETROLEUM
   CIVIL
   INDUSTRIAL
-  SERVEY
+  SURVEY
   ENVIRONMENTAL
   NUCLEAR
   ADME
@@ -43,21 +32,70 @@ enum Major {
   AI
 }
 
+model User {
+  id        String  @id @default(uuid()) //Primary Key
+  email     String  @unique
+  name      String?
+  lastRandomized  DateTime?
+  googleId  String  @unique
+  studentId String? @unique
+  year      Int?
+  faculty   String?
+  major     Major?
+  profileImage String?
+  inventory Inventory[]
+  wishlist Wishlist[]
+}
+
+
+
 model Charm {
   id    String  @id @default(uuid())
   name  String
-  price Int
+  category Category
+  imageUrl String?
   quote String
-  orders Order[]
+  variant String?
+  rarity Rarity
+  totalQuantity Int
+  availableQuantity Int @default(5)
+  major Major?
+  inventory Inventory[]
+  Wishlist Wishlist[]
 }
 
-model Order {
+enum Category {
+  LOVE
+  STUDY
+  MONEY
+  HEALTH
+}
+
+enum Rarity {
+  COMMON
+  RARE
+}
+
+model Inventory {
+  id          String  @id @default(uuid())
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+  charmId     String
+  charm       Charm   @relation(fields: [charmId], references: [id])
+  acquiredAt  DateTime @default(now())
+  expiresAt   DateTime?  // 1-day expiration
+  @@index([userId])
+  @@index([charmId])
+}
+
+
+
+model Wishlist {
   id       String  @id @default(uuid())
-  user     User    @relation(fields: [userId], references: [id])
   userId   String
-  charm    Charm   @relation(fields: [charmId], references: [id])
+  user     User    @relation(fields: [userId], references: [id])
   charmId  String
-  totalPrice Int
-  createdAt DateTime @default(now())
+  charm    Charm   @relation(fields: [charmId], references: [id])
+  @@index([userId])
+  @@index([charmId])
 }
-
