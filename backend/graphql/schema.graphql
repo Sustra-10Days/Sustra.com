@@ -81,6 +81,7 @@ type AuthMessage {
 type EditMessage{
   success: Boolean!
   message: String!
+  user: User
 }
 type getUserMessage{
   name: String
