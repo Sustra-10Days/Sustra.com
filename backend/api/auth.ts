@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config({path:'./backend/.env'});
 
 const connectionString = process.env.DATABASE_URL;
-
+//console.log(connectionString)
 const pool = new Pool({
     connectionString: connectionString,
 });
@@ -14,8 +14,9 @@ const pool = new Pool({
 export const auth_queryResolvers = {
     Query: {
         hello: () => "hello!!",
-        verify: async  ({ token }:{token:string}) => {
+        verify: async  (_:any,{ token }:{token:string}) => {
             try{
+                //console.log(token)
                 const decodedToken =await admin.auth().verifyIdToken(token);
                 const uid = decodedToken.uid;
                 const email = decodedToken.email;
@@ -43,21 +44,20 @@ export const auth_queryResolvers = {
 };
 export const auth_mutationResolvers = {
     Mutation: {
-        registerUser: async ({id,email,name,picture}:{id:string,email:string,name:string,picture:string}) =>{
+        registerUser: async (_parent:any,{id,email,name,picture}:{id:string,email:string,name:string,picture:string}) =>{
             try{
                 const client = await pool.connect();
-        
-                const checkQuery = 'SELECT * FROM users WHERE id = $1 OR email = $2';
+                const checkQuery = 'SELECT * FROM "User" WHERE id = $1 OR email = $2';
                 const checkValues = [id, email];
                 const checkResult = await client.query(checkQuery, checkValues);
         
                 if (checkResult.rows.length > 0) {
                     console.log('User already exists in the database');
                     client.release();
-                    return;
+                    return false;
                 }
-                const insertQuery = 'INSERT INTO users (id, email,name,profileImage) VALUES ($1, $2,$3,$4) RETURNING *';
-                const insertValues = [id, email,name,picture];
+                const insertQuery = 'INSERT INTO "User" (id, email,name,"profileImage","googleId") VALUES ($1, $2,$3,$4,$5) RETURNING *';
+                const insertValues = [id, email,name,picture,id];
                 const result = await client.query(insertQuery, insertValues);
                 console.log('User added:', result.rows[0]);
                 client.release();

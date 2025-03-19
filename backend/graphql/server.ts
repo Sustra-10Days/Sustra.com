@@ -14,6 +14,7 @@ const typeDefs = fs.readFileSync('./backend/graphql/schema.graphql', 'utf8');
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  csrfPrevention: true,
 });
 
 async function startServer() {
