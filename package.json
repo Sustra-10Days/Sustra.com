@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "postinstall":"prisma generate",
     "start": "node --loader ts-node/esm backend/graphql/server.ts"
   },
   "dependencies": {
