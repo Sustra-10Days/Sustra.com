@@ -110,5 +110,5 @@ type RandomizeResponse {
 type Query {
   getMarketplaceCharms: [Charm!]!  
   searchCharms(name: String!): [Charm!]!  
-  filterCharms(categories: [Category], majors: [Major], rarities: [Rarity]): [Charm!]!
+  filterCharms(categories: [Category], majors: [Major], rarities: [Rarity],charmId:String): [Charm!]!
 }

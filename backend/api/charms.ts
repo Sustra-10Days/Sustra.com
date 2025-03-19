@@ -7,7 +7,8 @@ export const getFilteredCharms = async (
   categories?: $Enums.Category[],
   majors?: $Enums.Major[],
   rarities?: $Enums.Rarity[],
-  name?: string
+  name?: string,
+  charmId?:string
 ) => {
   // Start building the query filters
   const filters: any = {
@@ -15,6 +16,7 @@ export const getFilteredCharms = async (
       categories ? { category: { in: categories } } : {},
       majors ? { OR: [{major: { in: majors } },{major:null}]} : {},
       rarities ? { rarity: { in: rarities } } : {},
+      charmId? {id: charmId}:{}
     ],
   };
 
@@ -65,10 +67,10 @@ export const charmResolvers = {
     // Filter charms by multiple categories, majors, and rarities, then search by name (optional)
     filterCharms: async (
       _: any,
-      { categories, majors, rarities, name }: { categories?: Category[]; majors?: Major[]; rarities?: Rarity[]; name?: string }
+      { categories, majors, rarities, name ,charmId}: { categories?: Category[]; majors?: Major[]; rarities?: Rarity[]; name?: string,charmId?:string }
     ) => {
       try {
-        return await getFilteredCharms(categories, majors, rarities, name); // Call the combined function
+        return await getFilteredCharms(categories, majors, rarities, name,charmId); // Call the combined function
       } catch (error: any) {
         throw new Error("Failed to filter charms: " + error.message);
       }
