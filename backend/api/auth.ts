@@ -60,14 +60,14 @@ export const auth_mutationResolvers = {
                 if (checkResult.rows.length > 0) {
                     console.log('User already exists in the database');
                     client.release();
-                    return false;
+                    return {success: false};
                 }
                 const insertQuery = 'INSERT INTO "User" (id, email,name,"profileImage","googleId") VALUES ($1, $2,$3,$4,$5) RETURNING *';
                 const insertValues = [id, email,name||null,picture||null,id];
                 const result = await client.query(insertQuery, insertValues);
                 console.log('User added:', result.rows[0]);
                 client.release();
-                return true;
+                return {success: true};
             }catch (err) {
                 console.error('Error processing user registration:', err);
             }
