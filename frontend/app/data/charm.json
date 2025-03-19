@@ -1,0 +1,67 @@
+{
+    "charms": [
+        {
+            "id": "1",
+            "name": "testr",
+            "image": "https://cdn.discordapp.com/attachments/519834856159444992/1350053846172303361/sigmaconsulting.png?ex=67d5571f&is=67d4059f&hm=0cb711bfd0dac2aba3ce97df3a34277a13a3bafedc7391f7e3690be2f89b4dc7&",
+            "variant": "testestseasdasdt",
+            "quote": "it's that simple.",
+            "isRare": true,
+            "category": "health"
+        },
+        {
+            "id": "2",
+            "name": "testr",
+            "image": "https://cdn.discordapp.com/attachments/519834856159444992/1350053846172303361/sigmaconsulting.png?ex=67d5571f&is=67d4059f&hm=0cb711bfd0dac2aba3ce97df3a34277a13a3bafedc7391f7e3690be2f89b4dc7&",
+            "variant": "testestseasdasdt",
+            "quote": "dasfjklasdhf jadshfjk ladshfjk ashdfjk ashdfjk sahfk lhasjdk fh.",
+            "isRare": true,
+            "category": "study"
+        },
+        {
+            "id": "3",
+            "name": "testr",
+            "image": "https://cdn.discordapp.com/attachments/519834856159444992/1350053846172303361/sigmaconsulting.png?ex=67d5571f&is=67d4059f&hm=0cb711bfd0dac2aba3ce97df3a34277a13a3bafedc7391f7e3690be2f89b4dc7&",
+            "variant": "testestseasdasdt",
+            "quote": "adfadsfdafasfasd.",
+            "isRare": true,
+            "category": "love"
+        },
+        {
+            "id": "4",
+            "name": "testr",
+            "image": "https://cdn.discordapp.com/attachments/519834856159444992/1350053846172303361/sigmaconsulting.png?ex=67d5571f&is=67d4059f&hm=0cb711bfd0dac2aba3ce97df3a34277a13a3bafedc7391f7e3690be2f89b4dc7&",
+            "variant": "testestseasdasdt",
+            "quote": "adfadsfdafasfasd.",
+            "isRare": true,
+            "category": "money"
+        },
+        {
+            "id": "5",
+            "name": "testr",
+            "image": "https://cdn.discordapp.com/attachments/519834856159444992/1350053846172303361/sigmaconsulting.png?ex=67d5571f&is=67d4059f&hm=0cb711bfd0dac2aba3ce97df3a34277a13a3bafedc7391f7e3690be2f89b4dc7&",
+            "variant": "testestseasdasdt",
+            "quote": "adfadsfdafasfasd.",
+            "isRare": true,
+            "category": "money"
+        },
+        {
+            "id": "6",
+            "name": "testr",
+            "image": "https://cdn.discordapp.com/attachments/519834856159444992/1350053846172303361/sigmaconsulting.png?ex=67d5571f&is=67d4059f&hm=0cb711bfd0dac2aba3ce97df3a34277a13a3bafedc7391f7e3690be2f89b4dc7&",
+            "variant": "testestseasdasdt",
+            "quote": "adfadsfdafasfasd.",
+            "isRare": true,
+            "category": "money"
+        },
+        {
+            "id": "7",
+            "name": "testr",
+            "image": "https://cdn.discordapp.com/attachments/519834856159444992/1350053846172303361/sigmaconsulting.png?ex=67d5571f&is=67d4059f&hm=0cb711bfd0dac2aba3ce97df3a34277a13a3bafedc7391f7e3690be2f89b4dc7&",
+            "variant": "testestseasdasdt",
+            "quote": "adfadsfdafasfasd.",
+            "isRare": true,
+            "category": "money"
+        }
+    ]
+}
