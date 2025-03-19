@@ -5,6 +5,7 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import fs from 'fs';
 import resolvers from './resolvers.js';
 
+
 // Load GraphQL schema from file
 //const schemaPath = path.join(__dirname, '../schema.graphql');
 
