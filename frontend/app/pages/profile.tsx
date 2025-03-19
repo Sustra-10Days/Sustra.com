@@ -93,12 +93,12 @@ export default function Profile() {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-purple-800">Edit Profile</h2>
+            <h2 className="text-2xl font-bold text-indigo-950">Edit Profile</h2>
           </div>
 
             <div className="space-y-5">
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="username" className="block text-sm font-medium text-indigo-950 mb-1">
                   Username
                 </label>
                 <input
@@ -111,7 +111,7 @@ export default function Profile() {
               </div>
 
               <div>
-                <label htmlFor="major" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="major" className="block text-sm font-medium text-indigo-950 mb-1">
                   Major
                 </label>
                 <input

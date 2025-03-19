@@ -6,7 +6,7 @@ import { auth } from "../firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import data from "@/app/data/charm.json";
+import data from "../data/charm.json";
 
 export default function MarketPlace() {
   const [log, setLogin] = useState<boolean>(false);
@@ -93,10 +93,10 @@ export default function MarketPlace() {
       </div>
       <div className="col-span-5 row-span-4 md:row-start-2 md:col-span-4 lg:col-span-4 lg:pr-20">
         <main className="h-screen bg-white flex-1 p-4">
-          <h1 className="text-black hidden md:block font-semibold text-xl md:text-2xl">
+          <h1 className="text-indigo-950 hidden md:block font-semibold text-xl md:text-2xl">
             Recommended Charms
           </h1>
-          <h1 className="text-black block md:hidden lg:hidden text-xl">
+          <h1 className="text-indigo-950 block md:hidden lg:hidden text-xl">
             <span className="font-normal">Hello {username},</span>{" "}
             <span className="font-bold">What charms do you wish for today?</span>
           </h1>

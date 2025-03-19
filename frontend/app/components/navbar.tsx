@@ -1,6 +1,5 @@
-"use "
 import { useState, useEffect } from "react";
-import { User, Search, Backpack, Menu } from "lucide-react";
+import { User, Search, Backpack } from "lucide-react";
 import { useRouter } from 'next/navigation'
 
 interface NavbarProps {
