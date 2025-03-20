@@ -8,9 +8,11 @@ interface MNavbarProps {
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
     login: boolean;
     lp: boolean;
+    searchvalue: string;
+    onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function MNavbar({ user, email, login, onClick, lp }: MNavbarProps) {
+export default function MNavbar({ user, email, login, onClick, lp,searchvalue, onchange }: MNavbarProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [showSidebar, setShowSidebar] = useState(false);
@@ -77,6 +79,8 @@ export default function MNavbar({ user, email, login, onClick, lp }: MNavbarProp
                         type="text"
                         placeholder="Search for items"
                         className="ml-2 bg-transparent focus:outline-none text-gray-500 w-full"
+                        value={searchvalue}
+                        onChange={onchange}
                     />
                 </div>
             )}
