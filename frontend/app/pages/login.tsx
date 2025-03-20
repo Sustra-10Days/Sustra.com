@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { auth, googleProvider } from '@/app/firebase/config';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import { signInWithRedirect, onAuthStateChanged } from 'firebase/auth';
 import client from "@/lib/ApolloClient";
 import { Register } from "@/lib/register";
 import { verify } from "@/lib/verify";
@@ -15,7 +15,7 @@ export default function Login() {
 
     const handleGoogleSignin = async () => {
         try {
-            await signInWithPopup(auth, googleProvider);
+            await signInWithRedirect(auth, googleProvider);
         } catch (error) {
             setError("Failed to sign in with Google. Please try again.");
         }
