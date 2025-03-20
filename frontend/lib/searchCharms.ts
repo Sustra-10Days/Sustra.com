@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const search = gql`
+export const searchCharms = gql`
 query searchCharms($name: String!) {
     searchCharms(name:$name ) {
         id
