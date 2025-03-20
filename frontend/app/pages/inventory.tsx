@@ -138,35 +138,36 @@ export default function Inventory() {
   };
   
   const [errorMessage, setErrorMessage] = useState("");
-  const handleRandomCharms = async() => {
+  const handleRandomCharms = async () => {
     try {
       setIsLoading(true);
       setErrorMessage(""); // Clear any previous errors
-      
+  
       const { data } = await client.mutate({
         mutation: random,
         variables: {
-          userId: uid
-        }
+          userId: uid,
+        },
       });
-      
+  
       console.log("Random charm result:", data);
-      
+  
       fetchInventory(uid);
-      
-    } catch (error) {
-      
-      if (error.message && error.message.includes("Inventory full!")) {
+    } catch (error: unknown) {
+      // Narrow down the error type
+      if (error instanceof Error && error.message.includes("Inventory full!")) {
         setErrorMessage("Inventory full! Cannot randomize more charms.");
-        
+  
         setTimeout(() => {
           setErrorMessage("");
         }, 3000);
+      } else {
+        console.error("Unexpected error:", error);
       }
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="h-screen grid grid-rows-[auto_1fr] md:overflow-hidden lg:overflow-hidden">
