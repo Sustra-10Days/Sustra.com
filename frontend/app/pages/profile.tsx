@@ -52,7 +52,7 @@ export default function Profile() {
           if (data) {
             console.log("User data received:", data.getUserbyId);
             setUsername(data.getUserbyId.name);
-            setMajor(data.getUserbyId.major||"");
+            setMajor(data.getUserbyId.major || "");
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -111,7 +111,7 @@ export default function Profile() {
     }
   };
 
-  return login?(
+  return (
     <div className="min-h-screen w-screen">
       {/* Navbar */}
       <MNavbar user={username} email={email} login={login} onClick={() => { }} lp={false} />
@@ -206,5 +206,5 @@ export default function Profile() {
         </div>
       )}
     </div>
-  ): null;
+  );
 }
