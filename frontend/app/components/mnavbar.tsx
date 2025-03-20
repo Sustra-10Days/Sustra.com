@@ -8,7 +8,7 @@ interface MNavbarProps {
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
     login: boolean;
     lp: boolean;
-    searchvalue: string;
+    searchvalue?: string;
     onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
