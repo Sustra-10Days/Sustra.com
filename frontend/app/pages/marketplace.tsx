@@ -290,7 +290,7 @@ export default function MarketPlace() {
 			{showModal2 && (
                 <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg flex items-center gap-4 animate-fade-in-out">
-                        <span className="text-gray-900 font-semibold">Cannot add, Inventory Full!</span>
+                        <span className="text-gray-900 font-semibold">Failed to add Charm to inventory</span>
                     </div>
                 </div>
             )}
