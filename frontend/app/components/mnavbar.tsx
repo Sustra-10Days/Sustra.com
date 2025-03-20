@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { User, Search, Backpack, Menu, Home, ShoppingBag } from "lucide-react";
 import { useRouter } from 'next/navigation'
-import { auth } from '@/app/firebase/config'
 
 interface MNavbarProps {
     user: string;
@@ -9,9 +8,11 @@ interface MNavbarProps {
     onClick: (event: React.MouseEvent<HTMLElement>) => void;
     login: boolean;
     lp: boolean;
+    searchvalue?: string;
+    onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function MNavbar({ user, email, login, onClick, lp }: MNavbarProps) {
+export default function MNavbar({ user, email, login, onClick, lp,searchvalue, onchange }: MNavbarProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [showSidebar, setShowSidebar] = useState(false);
@@ -42,7 +43,7 @@ export default function MNavbar({ user, email, login, onClick, lp }: MNavbarProp
             <div className=" hidden sm:block">
                 <div className="flex items-center space-x-6">
                     <div className="text-2xl font-bold text-black/75 cursor-pointer" onClick={handleLogo}>Sustra</div>
-                    <a className="text-violet-900/80 font-medium hover:text-violet-900 transition duration-100 cursor-pointer onClick={()=>{router.push('/marketplace')}}">Items</a>
+                    <a className="text-violet-900/80 font-medium hover:text-violet-900 transition duration-100 cursor-pointer" onClick={()=>{router.push('/marketplace')}}>Items</a>
                 </div>
             </div>
             {/* Mobile Menu Button */}
@@ -78,6 +79,8 @@ export default function MNavbar({ user, email, login, onClick, lp }: MNavbarProp
                         type="text"
                         placeholder="Search for items"
                         className="ml-2 bg-transparent focus:outline-none text-gray-500 w-full"
+                        value={searchvalue}
+                        onChange={onchange}
                     />
                 </div>
             )}

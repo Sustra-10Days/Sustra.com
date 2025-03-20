@@ -4,6 +4,10 @@ import { auth, googleProvider } from '@/app/firebase/config';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+import client from "@/lib/ApolloClient";
+import { Register } from "@/lib/register";
+import { verify } from "@/lib/verify";
+
 
 export default function Login() {
     const [error, setError] = useState("");
@@ -12,26 +16,59 @@ export default function Login() {
     const handleGoogleSignin = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
-            router.push('/marketplace');
         } catch (error) {
             setError("Failed to sign in with Google. Please try again.");
         }
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // User is signed in, redirect to home page
-                router.push('/');
+                try {
+                    console.log("User logged in:", user.uid, user.email);
+                    const idToken = await user.getIdToken(true);
+                    
+                    // Add this debug statement
+                    console.log("Attempting to verify token...");
+                    
+                    const { data } = await client.query({
+                        query: verify,
+                        variables: {
+                            token: idToken,
+                        }
+                    });
+                    console.log("Verification result:", data);
+                    
+                    if (data.verify && data.verify.success) {
+                        
+                        const { data: registerData } = await client.mutate({
+                            mutation: Register,
+                            variables: {
+                                id: user.uid,
+                                email: user.email,
+                                name: user.displayName || "Anonymous",
+                                picture: user.photoURL || "",
+                            },
+                        });
+                        
+                        console.log("Registration result:", registerData);
+                        
+                        if (registerData) {
+                            router.push('/marketplace');
+                        } else {
+                            setError("Registration failed. Please try again.");
+                        }
+                    }
+                } catch (error: unknown) {
+                    // More detailed error logging
+                    console.error("Authentication error:", error);
+                }
             }
         });
-
-        handleGoogleSignin();
-
-        // Cleanup subscription on unmount
+    
         return () => unsubscribe();
     }, [router]);
-    
+
     return (
         <main className="flex flex-col items-center justify-center h-screen bg-white">
             <div className="flex flex-col items-center justify-center">
@@ -44,7 +81,7 @@ export default function Login() {
                         Sustra.com
                     </Link>
                 </div>
-                {error!=='' &&("Failed to sign in with Google. Please try again.")}
+                {error !== '' && ("Failed to sign in with Google. Please try again.")}
                 {/*button container*/}
                 <button onClick={handleGoogleSignin} className="gsi-material-button flex items-center justify-between bg-white border border-gray-400 rounded-2xl box-border text-gray-800 cursor-pointer font-roboto text-sm h-10 px-3 relative transition duration-200 ease-in-out hover:shadow-md hover:bg-gray-100 focus:bg-gray-200 active:bg-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:border-gray-200">
                     <div className="absolute inset-0 opacity-0 transition-opacity duration-200 ease-in-out"></div>
@@ -64,4 +101,5 @@ export default function Login() {
             </div>
         </main>
     );
+
 }
