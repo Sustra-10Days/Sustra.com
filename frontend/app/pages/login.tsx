@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { auth, googleProvider } from '@/app/firebase/config';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signInWithRedirect, onAuthStateChanged } from 'firebase/auth';
+import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import client from "@/lib/ApolloClient";
 import { Register } from "@/lib/register";
 import { verify } from "@/lib/verify";
@@ -11,24 +11,36 @@ import { verify } from "@/lib/verify";
 
 export default function Login() {
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+    // Handle Google sign-in with redirect
     const handleGoogleSignin = async () => {
         try {
+            setLoading(true);
             await signInWithRedirect(auth, googleProvider);
+            // Note: After redirect, the page will reload, so code after this won't run immediately
         } catch (error) {
+            setLoading(false);
             setError("Failed to sign in with Google. Please try again.");
+            console.error("Sign-in error:", error);
         }
     };
 
+    // Process authentication when component mounts
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                try {
+        async function processAuth() {
+            try {
+                setLoading(true);
+                
+                // Get the redirect result when user returns from Google auth
+                const result = await getRedirectResult(auth);
+                
+                if (result && result.user) {
+                    const user = result.user;
                     console.log("User logged in:", user.uid, user.email);
                     const idToken = await user.getIdToken(true);
                     
-                    // Add this debug statement
                     console.log("Attempting to verify token...");
                     
                     const { data } = await client.query({
@@ -40,7 +52,6 @@ export default function Login() {
                     console.log("Verification result:", data);
                     
                     if (data.verify && data.verify.success) {
-                        
                         const { data: registerData } = await client.mutate({
                             mutation: Register,
                             variables: {
@@ -59,14 +70,16 @@ export default function Login() {
                             setError("Registration failed. Please try again.");
                         }
                     }
-                } catch (error: unknown) {
-                    // More detailed error logging
-                    console.error("Authentication error:", error);
                 }
+            } catch (error) {
+                console.error("Authentication processing error:", error);
+                setError("Authentication failed. Please try again.");
+            } finally {
+                setLoading(false);
             }
-        });
-    
-        return () => unsubscribe();
+        }
+
+        processAuth();
     }, [router]);
 
     return (
@@ -81,9 +94,13 @@ export default function Login() {
                         Sustra.com
                     </Link>
                 </div>
-                {error !== '' && ("Failed to sign in with Google. Please try again.")}
+                {error !== '' && <div className="text-red-500 mb-4">{error}</div>}
                 {/*button container*/}
-                <button onClick={handleGoogleSignin} className="gsi-material-button flex items-center justify-between bg-white border border-gray-400 rounded-2xl box-border text-gray-800 cursor-pointer font-roboto text-sm h-10 px-3 relative transition duration-200 ease-in-out hover:shadow-md hover:bg-gray-100 focus:bg-gray-200 active:bg-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:border-gray-200">
+                <button 
+                    onClick={handleGoogleSignin} 
+                    disabled={loading}
+                    className="gsi-material-button flex items-center justify-between bg-white border border-gray-400 rounded-2xl box-border text-gray-800 cursor-pointer font-roboto text-sm h-10 px-3 relative transition duration-200 ease-in-out hover:shadow-md hover:bg-gray-100 focus:bg-gray-200 active:bg-gray-300 disabled:cursor-default disabled:bg-gray-200 disabled:border-gray-200"
+                >
                     <div className="absolute inset-0 opacity-0 transition-opacity duration-200 ease-in-out"></div>
                     <div className="flex items-center justify-between w-full h-full">
                         <div className="h-5 w-5 mr-3">
@@ -95,11 +112,12 @@ export default function Login() {
                                 <path fill="none" d="M0 0h48v48H0z"></path>
                             </svg>
                         </div>
-                        <span className="flex-grow font-medium overflow-hidden text-ellipsis">Continue with Google</span>
+                        <span className="flex-grow font-medium overflow-hidden text-ellipsis">
+                            {loading ? "Processing..." : "Continue with Google"}
+                        </span>
                     </div>
                 </button>
             </div>
         </main>
     );
-
 }
