@@ -1,5 +1,5 @@
 "use client";
-import MNavbar from "../components/mnavbar";
+import Navbar from "../components/navbar";
 import { User, Edit } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -110,11 +110,19 @@ export default function Profile() {
       }
     }
   };
+  const handleUserClick = () => {
+    if (login) {
+      router.push("/profile");
+    }
+    else {
+      router.push("/login");
+    }
+  };
 
   return (
     <div className="min-h-screen w-screen">
       {/* Navbar */}
-      <MNavbar user={username} email={email} login={login} onClick={() => { }} lp={false} />
+      <Navbar user={user} login={login} onClick={handleUserClick} lp={true} />
       <div className="flex justify-center items-center flex-grow p-4">
         <section className="bg-white p-10 rounded-lg shadow-xl flex flex-col sm:flex-row justify-between items-center w-full max-w-[90vw] sm:max-w-[60vw] lg:max-w-[65vw]">
           <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 text-center sm:text-left">

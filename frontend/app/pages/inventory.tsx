@@ -1,5 +1,5 @@
 "use client";
-import MNavbar from "../components/mnavbar";
+import Navbar from "../components/navbar";
 import Charms from "../components/charms";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -168,11 +168,19 @@ export default function Inventory() {
       setIsLoading(false);
     }
   };
+  const handleUserClick = () => {
+    if (login) {
+      router.push("/profile");
+    }
+    else {
+      router.push("/login");
+    }
+  };
 
   return (
     <div className="h-screen grid grid-rows-[auto_1fr] md:overflow-hidden lg:overflow-hidden">
       {/* Navbar */}
-      <MNavbar user={user} email={email} login={login} onClick={() => {}} lp={false}/>
+      <Navbar user={user} login={login} onClick={handleUserClick} lp={true} />
 
       {/* Main content */}
       <div className="grid grid-cols-5 md:overflow-hidden lg:overflow-hidden">
