@@ -154,7 +154,7 @@ export default function Inventory() {
       
       fetchInventory(uid);
       
-    } catch (error:unknown) {
+    } catch (error) {
       
       if (error.message && error.message.includes("Inventory full!")) {
         setErrorMessage("Inventory full! Cannot randomize more charms.");
