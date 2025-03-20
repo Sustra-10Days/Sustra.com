@@ -8,6 +8,7 @@ import { verify } from '@/lib/getUser';
 import client from "@/lib/ApolloClient";
 import { auth } from '@/app/firebase/config';
 import { modify } from '@/lib/modifyUser';
+import { getUserInventory } from '../../lib/getUserInventory';
 
 export default function Profile() {
   const [user, setUser] = useState("Login");
@@ -18,25 +19,7 @@ export default function Profile() {
   const [uid, setUid] = useState("");
   const router = useRouter();
 
-  const fetchUserData = async () => {
-    if (uid && username && username !== "Anonymous") {
-      try {
-        console.log("Fetching user data for:", uid, username);
-        const { data } = await client.query({
-          query: verify,
-          variables: { uid: uid },
-          fetchPolicy: 'network-only' // Force fresh data from server
-        });
-
-        if (data && data.verify) {
-          setMajor(data.getUserbyId.major);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    }
-  };
-
+  // Handle auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -45,10 +28,9 @@ export default function Profile() {
           setUser(displayName || "Login");
           setLogin(true);
           setEmail(user.email || '');
-          setUsername(user.displayName || "Anonymous");
           setUid(user.uid);
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error("Error setting user data:", error);
         }
       } else {
         router.push('/login');
@@ -56,6 +38,30 @@ export default function Profile() {
     });
     return () => unsubscribe();
   }, [router]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (uid) {
+        try {
+          console.log("Fetching user data for:", uid);
+          const { data } = await client.query({
+            query: verify,
+            variables: { uid: uid },
+            fetchPolicy: 'network-only' // Force fresh data from server
+          });
+          if (data) {
+            console.log("User data received:", data.getUserbyId);
+            setUsername(data.getUserbyId.name);
+            setMajor(data.getUserbyId.major||"");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [uid]);
 
   const [showEdit, setShowEdit] = useState(false);
   const [isVisible, setVisible] = useState(false);
@@ -105,15 +111,10 @@ export default function Profile() {
     }
   };
 
-  useEffect(() => {
-    fetchUserData();
-  }, [uid, username,isShown])
-
-
   return (
     <div className="min-h-screen w-screen">
       {/* Navbar */}
-      <MNavbar user={user} email={email} login={login} onClick={() => { }} lp={false} />
+      <MNavbar user={username} email={email} login={login} onClick={() => { }} lp={false} />
       <div className="flex justify-center items-center flex-grow p-4">
         <section className="bg-white p-10 rounded-lg shadow-xl flex flex-col sm:flex-row justify-between items-center w-full max-w-[90vw] sm:max-w-[60vw] lg:max-w-[65vw]">
           <div className="flex flex-col sm:flex-row items-center space-x-0 sm:space-x-4 text-center sm:text-left">
@@ -129,7 +130,7 @@ export default function Profile() {
 
             {/* User Info */}
             <div>
-              <h2 className="text-xl font-semibold text-purple-800">{user}</h2>
+              <h2 className="text-xl font-semibold text-purple-800">{username}</h2>
               <p className="text-gray-500">{email}</p>
               <p className="text-gray-600">Major: <span className="font-semibold">{major}</span></p>
             </div>
