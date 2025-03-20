@@ -1,7 +1,6 @@
 "use client"
 import { useState } from "react";
 import { Plus, Check } from "lucide-react";
-import { FaHeart } from "react-icons/fa";
 
 interface Charm {
   id: string;

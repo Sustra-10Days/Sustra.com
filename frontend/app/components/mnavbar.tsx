@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { User, Search, Backpack, Menu, Home, ShoppingBag } from "lucide-react";
 import { useRouter } from 'next/navigation'
-import { auth } from '@/app/firebase/config'
 
 interface MNavbarProps {
     user: string;
