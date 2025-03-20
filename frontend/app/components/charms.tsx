@@ -39,7 +39,7 @@ export default function Charms({ id, name, image, variant, quote, isRare, catego
         )}
 
         {/* Image */}
-        <img src={image} alt={name} className="w-full h-[65%] md:h-[70%] lg:h-[80%] object-cover cursor-pointer" onClick={() => setClick(!click)} />
+        <img src={image} alt={name} className="w-full h-[62%] md:h-[70%] lg:h-[75%] object-cover cursor-pointer" onClick={() => setClick(!click)} />
 
         {/* Card Content */}
         <div className="p-3 justify-between flex flex-row">

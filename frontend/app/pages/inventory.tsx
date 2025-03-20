@@ -202,7 +202,7 @@ export default function Inventory() {
                   <Charms
                     id={charm.id}
                     name={charm.name}
-                    image={charm.image}
+                    image={charm.imageUrl}
                     variant={charm.variant}
                     quote={charm.quote}
                     isRare={charm.rarity !== "COMMON"}
