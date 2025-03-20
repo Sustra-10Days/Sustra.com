@@ -266,8 +266,8 @@ export default function MarketPlace() {
 								<Charms
 									id={charm.id}
 									name={charm.name}
-									image={charm.imageUrl}
-									variant={charm.variant || '/img/default'}
+									image={charm.imageUrl || "../img/00.jpg"}
+									variant={charm.variant || ""}
 									quote={charm.quote}
 									isRare={charm.rarity !== 'COMMON'}
 									category={charm.category}
