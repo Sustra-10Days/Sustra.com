@@ -111,7 +111,7 @@ export default function Profile() {
     }
   };
 
-  return (
+  return login?(
     <div className="min-h-screen w-screen">
       {/* Navbar */}
       <MNavbar user={username} email={email} login={login} onClick={() => { }} lp={false} />

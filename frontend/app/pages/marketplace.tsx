@@ -109,7 +109,7 @@ export default function MarketPlace() {
 						rarities: rarity,
 					},
 				});
-				setCharmsData(data.filterCharms); // Update state with fetched charms
+				setCharmsData(data.filterCharms);
 			} catch (err) {
 				console.error("Error fetching charms:", err);
 				setError("Failed to fetch charms. Please try again.");
@@ -266,8 +266,8 @@ export default function MarketPlace() {
 								<Charms
 									id={charm.id}
 									name={charm.name}
-									image={charm.image}
-									variant={charm.variant}
+									image={charm.imageUrl}
+									variant={charm.variant || '/img/default'}
 									quote={charm.quote}
 									isRare={charm.rarity !== 'COMMON'}
 									category={charm.category}
