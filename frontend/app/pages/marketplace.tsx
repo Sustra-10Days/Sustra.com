@@ -10,6 +10,7 @@ import client from "@/lib/ApolloClient";
 import { charmsQuery } from "@/lib/charmsQuery";
 import { addCharmtoInventory } from "@/lib/addCharm"
 import { sources } from "next/dist/compiled/webpack/webpack";
+import {searchCharms} from "@/lib/searchCharms"
 
 export default function MarketPlace() {
 	const [log, setLogin] = useState<boolean>(false);
@@ -76,6 +77,7 @@ export default function MarketPlace() {
 		'AI'];
 
 	const [charmsData, setCharmsData] = useState<any[]>([]); // State to store fetched charms
+	const [search, setSearch] = useState<string>("");
 
 	useEffect(() => {
 		const fetchCharms = async () => {
@@ -101,7 +103,7 @@ export default function MarketPlace() {
 				if(selectedCategories.length !== 0){category =selectedCategories}
 				if(selectedMajors.length !== 0){major =selectedMajors}
 				if(selectedRarities.length !== 0){rarity = selectedRarities}
-				const { data } = await client.query({
+				if(search===""){const { data } = await client.query({
 					query: charmsQuery,
 					variables: {
 						categories: category,
@@ -109,7 +111,16 @@ export default function MarketPlace() {
 						rarities: rarity,
 					},
 				});
-				setCharmsData(data.filterCharms);
+				setCharmsData(data.filterCharms);}
+				else{
+					const { data } = await client.query({
+						query: searchCharms,
+						variables: {
+							name:search,
+						},
+					});
+					setCharmsData(data.searchCharms);
+				}
 			} catch (err) {
 				console.error("Error fetching charms:", err);
 				setError("Failed to fetch charms. Please try again.");
@@ -117,7 +128,7 @@ export default function MarketPlace() {
 		};
 
 		fetchCharms();
-	}, [selectedCategories, selectedMajors, selectedRarities, client, showModal]);
+	}, [selectedCategories, selectedMajors, selectedRarities, client, showModal,search]);
 
 	const handleCheckboxChange = (item: string, type: string): void => {
 		if (type === "color") {
@@ -167,6 +178,8 @@ export default function MarketPlace() {
 					onClick={onClick}
 					login={log}
 					lp={false}
+					searchvalue={search}
+					onchange={(e) => setSearch(e.target.value)}
 				/>
 			</div>
 			<div className="row-span-4 row-start-2 hidden sm:block">
@@ -195,6 +208,8 @@ export default function MarketPlace() {
 							<input
 								type="text"
 								placeholder="Search charms..."
+								value ={search}
+								onChange={(e) => setSearch(e.target.value)}
 								className="w-full px-3 py-2 pl-10 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500"
 							/>
 							<svg
@@ -290,7 +305,7 @@ export default function MarketPlace() {
 			{showModal2 && (
                 <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg flex items-center gap-4 animate-fade-in-out">
-                        <span className="text-gray-900 font-semibold">Failed to add Charm to inventory</span>
+                        <span className="text-gray-900 font-semibold">Cannot add, Inventory Full!</span>
                     </div>
                 </div>
             )}
